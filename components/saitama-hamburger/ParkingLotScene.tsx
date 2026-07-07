@@ -1,4 +1,5 @@
-import { CrownCar } from "@/components/saitama-hamburger/CrownCar";
+import { CenturyCar } from "@/components/saitama-hamburger/CenturyCar";
+import { HiAceVan } from "@/components/saitama-hamburger/HiAceVan";
 
 interface ParkingLotSceneProps {
   children?: React.ReactNode;
@@ -21,14 +22,16 @@ export function ParkingLotScene({
         <div className="game-parking-wetshine absolute inset-0" />
       </div>
 
-      <div className="absolute bottom-[18%] left-[4%] z-10 opacity-95">
-        <CrownCar variant="white" headlightsOn scale={0.85} brakeLights={intensity === "combat"} />
+      {/* とべ君 — 銀のハイエース */}
+      <div className="absolute bottom-[16%] left-[2%] z-10">
+        <p className="mb-1 text-center text-[9px] text-zinc-400">とべ君</p>
+        <HiAceVan headlightsOn scale={0.9} />
       </div>
-      <div className="absolute bottom-[22%] right-[8%] z-10 opacity-90">
-        <CrownCar variant="white" headlightsOn scale={0.75} />
-      </div>
-      <div className="absolute bottom-[16%] left-[38%] z-10 opacity-85">
-        <CrownCar variant="white" headlightsOn scale={0.65} />
+
+      {/* かつみ組長 — 黒のセンチュリー */}
+      <div className="absolute bottom-[20%] right-[4%] z-10">
+        <p className="mb-1 text-center text-[9px] text-red-400/80">かつみ組長</p>
+        <CenturyCar headlightsOn scale={0.85} />
       </div>
 
       {intensity === "combat" && (

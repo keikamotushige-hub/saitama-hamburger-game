@@ -26,6 +26,7 @@ function getCaller(phase: CallPhase) {
 }
 
 function getStatus(phase: CallPhase): string {
+  if (phase === "dialing-katsumi") return "接続中 — 呼び出し音なし";
   if (phase.startsWith("dialing")) return "発信中……";
   if (phase === "gunfight") return "通話中 — 交戦";
   return "通話中";
@@ -102,6 +103,12 @@ export function PhoneCallUI({
             <div className="game-phone-subtitle rounded-xl border border-zinc-800 bg-black/60 px-4 py-3">
               <p className="text-sm leading-relaxed text-zinc-200">{activeLine}</p>
             </div>
+          )}
+
+          {phase === "dialing-katsumi" && (
+            <p className="mt-3 text-center text-xs text-amber-400/90">
+              かつみの電話は鳴らない。置きっぱなしで繋ぐ。
+            </p>
           )}
 
           {phase === "gunfight" && (

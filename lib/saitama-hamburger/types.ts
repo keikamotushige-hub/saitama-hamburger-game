@@ -23,10 +23,16 @@ export interface Fighter {
   title?: string;
 }
 
+export const TOBE = {
+  name: "とべ君",
+  vehicle: "銀のハイエース",
+};
+
 export const KATSUMI = {
   name: "かつみ",
   title: "ひろしげ君一家・組長",
   organization: "ひろしげ一家",
+  vehicle: "黒のセンチュリー",
   phone: "090-XXXX-1107",
 };
 
@@ -107,11 +113,12 @@ export const ENEMIES: Omit<Fighter, "id">[] = [
 ];
 
 export const KATSUMI_LINES = [
-  { speaker: "システム", text: "ひろしげ君一家・組長 かつみ に発信中……" },
-  { speaker: "かつみ", text: "……もしもし。誰だ。" },
-  { speaker: "とべ君", text: "かつみ組長。ひろしげの件、敵の鈴木組長に直接掛けます。" },
+  { speaker: "システム", text: "とべ君の銀ハイエースから、かつみ組長の黒センチュリーへ発信……" },
+  { speaker: "システム", text: "かつみの電話は鳴らなかった。置きっぱなしのまま、静かに繋がる。" },
+  { speaker: "かつみ", text: "……もしもし。黒センチュリーの中だ。" },
+  { speaker: "とべ君", text: "かつみ組長。俺は銀のハイエースに乗ってる。ひろしげの件、敵の鈴木組長に直接繋ぐ。" },
   { speaker: "かつみ", text: "……わかった。お前たちの判断を信じる。容赦はするな。" },
-  { speaker: "かつみ", text: "だが、白のクラウンから降りるな。足は動かすな。電話を切るな。" },
+  { speaker: "かつみ", text: "だが、ハイエースから降りるな。電話をかつみの電話に置いたまま、切るな。" },
 ];
 
 export const BOSS_LINES = [

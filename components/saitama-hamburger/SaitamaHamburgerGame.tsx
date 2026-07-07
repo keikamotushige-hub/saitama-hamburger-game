@@ -80,7 +80,7 @@ export function SaitamaHamburgerGame() {
               onClick={() => setScene("select")}
               className="game-btn-ghost mt-8 border px-6 py-2"
             >
-              クラウンに乗る
+              銀のハイエースに乗る
             </button>
           </div>
         </div>
@@ -89,7 +89,7 @@ export function SaitamaHamburgerGame() {
       {scene === "select" && (
         <div className="mx-auto max-w-4xl">
           <p className="mb-6 text-center text-sm text-gray-400">
-            白のクラウンに乗るメンバーを3人選べ（{selectedChars.length}/3）
+            銀ハイエースに乗るメンバーを3人選べ（{selectedChars.length}/3）
           </p>
           <div className="grid grid-cols-1 gap-6 p-4 sm:grid-cols-2 sm:p-10">
             {CHARACTERS.map((char) => {
@@ -149,8 +149,8 @@ export function SaitamaHamburgerGame() {
             </h2>
             <p className="mt-8 italic leading-relaxed text-gray-300">
               {battleResult === "victory"
-                ? "白のクラウンがエンジン音を轟かせ、埼玉の夜明けへと消えていく——"
-                : "電話が切れた。白のシーマの記憶だけが、夜に残った。"}
+                ? "銀のハイエースが夜明けへ消える。かつみの電話は、まだ繋がったままだった——"
+                : "電話が切れた。黒センチュリーの灯りだけが、夜に残った。"}
             </p>
             <button
               type="button"
