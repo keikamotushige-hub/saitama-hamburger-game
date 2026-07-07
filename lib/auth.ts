@@ -2,97 +2,63 @@ import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import type { SessionUser, UserRole } from "./auth-types";
 import { SESSION_COOKIE } from "./auth-types";
-import { authenticateFromSupabase } from "./supabase";
 
 const SESSION_DURATION = 60 * 60 * 24 * 7;
-const FALLBACK_AUTH_SECRET = "saitama-hamburger-game-secret-2026";
+const AUTH_SECRET = "saitama-hamburger-game-secret-2026";
 
-function envOrFallback(value: string | undefined, fallback: string): string {
-  const trimmed = (value ?? "").trim();
-  return trimmed || fallback;
-}
-
-function getSecret(): Uint8Array {
-  const secret = envOrFallback(
-    process.env.AUTH_SECRET,
-    FALLBACK_AUTH_SECRET,
-  );
-  return new TextEncoder().encode(secret);
-}
-
-interface PlayerCredential {
-  loginId: string;
+/** Vercel環境変数に依存せず、常にログインできる組み込みアカウント */
+const BUILTIN_ACCOUNTS: Array<{
+  loginIds: string[];
   password: string;
   name: string;
+  role: UserRole;
+}> = [
+  {
+    loginIds: ["keikamotushige@gmail.com", "keikamotushiige@gmail.com"],
+    password: "111111",
+    name: "オーナー",
+    role: "owner",
+  },
+  {
+    loginIds: ["family1"],
+    password: "1111",
+    name: "家族プレイ1",
+    role: "player",
+  },
+  {
+    loginIds: ["family2"],
+    password: "2222",
+    name: "家族プレイ2",
+    role: "player",
+  },
+  {
+    loginIds: ["test"],
+    password: "1111",
+    name: "テストプレイ",
+    role: "player",
+  },
+];
+
+function getSecret(): Uint8Array {
+  return new TextEncoder().encode(AUTH_SECRET);
 }
 
-function getOwnerEmails(): string[] {
-  const fromEnv = envOrFallback(
-    process.env.OWNER_EMAIL,
-    "keikamotushige@gmail.com",
-  );
-  const extras = envOrFallback(process.env.OWNER_EMAIL_ALIASES, "keikamotushiige@gmail.com");
-  return [...new Set([fromEnv, ...extras.split(",")].map((e) => e.trim().toLowerCase()))].filter(Boolean);
-}
-
-function getEnvCredentials(): {
-  owner: { emails: string[]; password: string; name: string };
-  players: PlayerCredential[];
-} {
-  return {
-    owner: {
-      emails: getOwnerEmails(),
-      password: envOrFallback(process.env.OWNER_PASSWORD, "owner2026!"),
-      name: "オーナー",
-    },
-    players: [
-      {
-        loginId: envOrFallback(process.env.PLAYER1_ID, "family1"),
-        password: envOrFallback(process.env.PLAYER1_PASSWORD, "1111"),
-        name: envOrFallback(process.env.PLAYER1_NAME, "家族プレイ1"),
-      },
-      {
-        loginId: envOrFallback(process.env.PLAYER2_ID, "family2"),
-        password: envOrFallback(process.env.PLAYER2_PASSWORD, "2222"),
-        name: envOrFallback(process.env.PLAYER2_NAME, "家族プレイ2"),
-      },
-      {
-        loginId: envOrFallback(process.env.TEST_ID, "test"),
-        password: envOrFallback(process.env.TEST_PASSWORD, "test2026"),
-        name: envOrFallback(process.env.TEST_NAME, "テストプレイ"),
-      },
-    ],
-  };
-}
-
-function authenticateFromEnv(
+function authenticateBuiltin(
   loginId: string,
   password: string,
 ): SessionUser | null {
-  const creds = getEnvCredentials();
   const normalizedId = loginId.trim().toLowerCase();
   const normalizedPassword = password.trim();
 
-  if (
-    creds.owner.emails.includes(normalizedId) &&
-    normalizedPassword === creds.owner.password
-  ) {
-    return {
-      email: loginId.trim(),
-      name: creds.owner.name,
-      role: "owner",
-    };
-  }
-
-  for (const player of creds.players) {
-    if (
-      normalizedId === player.loginId.trim().toLowerCase() &&
-      normalizedPassword === player.password
-    ) {
+  for (const account of BUILTIN_ACCOUNTS) {
+    const matchedId = account.loginIds.find(
+      (id) => id.toLowerCase() === normalizedId,
+    );
+    if (matchedId && normalizedPassword === account.password) {
       return {
-        email: player.loginId.trim(),
-        name: player.name,
-        role: "player",
+        email: loginId.trim(),
+        name: account.name,
+        role: account.role,
       };
     }
   }
@@ -104,14 +70,7 @@ export async function authenticateUser(
   loginId: string,
   password: string,
 ): Promise<SessionUser | null> {
-  try {
-    const fromSupabase = await authenticateFromSupabase(loginId, password);
-    if (fromSupabase) return fromSupabase;
-  } catch {
-    // Supabase未設定・障害時は env 認証へフォールバック
-  }
-
-  return authenticateFromEnv(loginId, password);
+  return authenticateBuiltin(loginId, password);
 }
 
 export async function createSessionToken(user: SessionUser): Promise<string> {

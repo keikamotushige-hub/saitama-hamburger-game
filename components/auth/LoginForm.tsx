@@ -21,14 +21,17 @@ export function LoginForm({ redirectTo = "/play" }: { redirectTo?: string }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ email: loginId, password }),
+        body: JSON.stringify({
+          email: loginId.trim(),
+          password: password.trim(),
+        }),
       });
 
-      await parseApiResponse(response);
-      window.location.href = redirectTo;
+      const data = await parseApiResponse<{ role: string; name: string }>(response);
+      if (!data) throw new Error("ログインに失敗しました。");
+      window.location.assign(redirectTo);
     } catch (err) {
       setError(err instanceof Error ? err.message : "ログインに失敗しました。");
-    } finally {
       setIsLoading(false);
     }
   };
@@ -69,7 +72,7 @@ export function LoginForm({ redirectTo = "/play" }: { redirectTo?: string }) {
             value={loginId}
             onChange={(e) => setLoginId(e.target.value)}
             className="mb-4 w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 text-white focus:border-red-600 focus:outline-none"
-            placeholder="test または keikamotushige@gmail.com"
+            placeholder="keikamotushige@gmail.com"
             autoComplete="username"
             required
           />
@@ -79,11 +82,14 @@ export function LoginForm({ redirectTo = "/play" }: { redirectTo?: string }) {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="mb-6 w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 text-white focus:border-red-600 focus:outline-none"
-            placeholder="パスワード"
+            className="mb-2 w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 text-white focus:border-red-600 focus:outline-none"
+            placeholder="111111"
             autoComplete="current-password"
             required
           />
+          <p className="mb-6 text-xs text-zinc-500">
+            オーナーパスワード：<span className="text-red-400">111111</span>（6つの1）
+          </p>
 
           <Button type="submit" isLoading={isLoading} className="w-full">
             <LogIn className="h-4 w-4" />

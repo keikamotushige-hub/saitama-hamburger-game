@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { email, password } = body as { email?: string; password?: string };
 
-    if (!email?.trim() || !password) {
+    if (!email?.trim() || password == null || String(password).trim() === "") {
       return NextResponse.json<ApiResponse<{ role: string }>>(
         { success: false, error: "IDとパスワードを入力してください。" },
         { status: 400 },
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
 
     response.cookies.set(SESSION_COOKIE, token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       sameSite: "lax",
       maxAge: 60 * 60 * 24 * 7,
       path: "/",
