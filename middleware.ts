@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { verifySessionToken } from "@/lib/auth";
 import { SESSION_COOKIE } from "@/lib/auth-types";
 
-const PUBLIC_PATHS = ["/login"];
+const PUBLIC_PATHS = ["/", "/login"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;

@@ -2,6 +2,7 @@ import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import type { SessionUser, UserRole } from "./auth-types";
 import { SESSION_COOKIE } from "./auth-types";
+import { authenticateFromSupabase } from "./supabase";
 
 const SESSION_DURATION = 60 * 60 * 24 * 7;
 
@@ -21,7 +22,7 @@ interface PlayerCredential {
   name: string;
 }
 
-export function getCredentials(): {
+function getEnvCredentials(): {
   owner: { email: string; password: string; name: string };
   players: PlayerCredential[];
 } {
@@ -42,15 +43,20 @@ export function getCredentials(): {
         password: trim(process.env.PLAYER2_PASSWORD, "2222"),
         name: trim(process.env.PLAYER2_NAME, "家族プレイ2"),
       },
+      {
+        loginId: trim(process.env.TEST_ID, "test"),
+        password: trim(process.env.TEST_PASSWORD, "test2026"),
+        name: trim(process.env.TEST_NAME, "テストプレイ"),
+      },
     ],
   };
 }
 
-export function authenticateUser(
+function authenticateFromEnv(
   loginId: string,
   password: string,
 ): SessionUser | null {
-  const creds = getCredentials();
+  const creds = getEnvCredentials();
   const normalizedId = loginId.trim().toLowerCase();
   const normalizedPassword = password.trim();
 
@@ -79,6 +85,16 @@ export function authenticateUser(
   }
 
   return null;
+}
+
+export async function authenticateUser(
+  loginId: string,
+  password: string,
+): Promise<SessionUser | null> {
+  const fromSupabase = await authenticateFromSupabase(loginId, password);
+  if (fromSupabase) return fromSupabase;
+
+  return authenticateFromEnv(loginId, password);
 }
 
 export async function createSessionToken(user: SessionUser): Promise<string> {

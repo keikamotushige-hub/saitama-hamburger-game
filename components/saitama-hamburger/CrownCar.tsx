@@ -1,6 +1,6 @@
 interface CrownCarProps {
   className?: string;
-  variant?: "black" | "silver" | "dark";
+  variant?: "black" | "silver" | "dark" | "white";
   headlightsOn?: boolean;
   brakeLights?: boolean;
   scale?: number;
@@ -14,11 +14,13 @@ export function CrownCar({
   scale = 1,
 }: CrownCarProps) {
   const body =
-    variant === "silver"
-      ? { main: "#8a9098", dark: "#5c636b", trim: "#d4dae0" }
-      : variant === "dark"
-        ? { main: "#1a1d22", dark: "#0a0c10", trim: "#3a4048" }
-        : { main: "#12151a", dark: "#050608", trim: "#2a3038" };
+    variant === "white"
+      ? { main: "#f0f2f5", dark: "#c8ccd4", trim: "#ffffff" }
+      : variant === "silver"
+        ? { main: "#8a9098", dark: "#5c636b", trim: "#d4dae0" }
+        : variant === "dark"
+          ? { main: "#1a1d22", dark: "#0a0c10", trim: "#3a4048" }
+          : { main: "#12151a", dark: "#050608", trim: "#2a3038" };
 
   return (
     <svg

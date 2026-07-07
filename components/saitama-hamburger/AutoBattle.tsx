@@ -66,7 +66,7 @@ export function AutoBattle({ party, enemies, onFinish }: AutoBattleProps) {
   const currentLines = phase.includes("katsumi") ? KATSUMI_LINES : BOSS_LINES;
   const activeLine =
     phase === "gunfight"
-      ? log[0] ?? "通話を切らずに、駐車場で銃声が響く——"
+      ? log[0] ?? "白のクラウンがエンジン音を轟かせ突入中……"
       : phase.startsWith("dialing")
         ? null
         : `${currentLines[lineIndex]?.speaker}：「${currentLines[lineIndex]?.text}」`;
@@ -208,9 +208,14 @@ export function AutoBattle({ party, enemies, onFinish }: AutoBattleProps) {
         />
 
         <div className="game-combat-panel rounded-2xl border border-red-900/40 bg-black/75 p-4 backdrop-blur-md">
-          <h2 className="mb-4 text-center text-lg font-bold uppercase tracking-[0.15em] text-red-400 sm:text-xl">
-            {inGunfight ? "通話維持 — 駐車場交戦" : "連絡体制 — クラウン待機"}
+          <h2 className="mb-4 text-center text-2xl font-bold text-red-500 sm:text-4xl">
+            {inGunfight ? "戦闘中: 埼玉の夜" : "戦闘準備: 埼玉の夜"}
           </h2>
+          {!inGunfight && (
+            <p className="mb-4 text-center italic text-gray-400">
+              [白のクラウンがエンジン音を轟かせ突入中...]
+            </p>
+          )}
 
           <div className="grid gap-4 sm:grid-cols-2">
             <section>
@@ -242,7 +247,7 @@ export function AutoBattle({ party, enemies, onFinish }: AutoBattleProps) {
 
             <section>
               <h3 className="mb-2 text-[10px] font-bold uppercase tracking-wider text-zinc-400">
-                鈴木組（対面車列）
+                敵対組織・鈴木組（対面車列）
               </h3>
               <ul className="space-y-2">
                 {battle.foes.map((foe) => (
@@ -286,7 +291,7 @@ export function AutoBattle({ party, enemies, onFinish }: AutoBattleProps) {
             <ul className="max-h-36 space-y-1 overflow-y-auto text-xs leading-relaxed text-zinc-300">
               {(log.length > 0
                 ? log
-                : ["クラウン三台、駐車場に到着。まず一家の当主・かつみに連絡する——"]
+                : ["白のクラウン三台、駐車場に到着。まず一家の当主・かつみに連絡する——"]
               ).map((line, index) => (
                 <li key={`${line}-${index}`}>{line}</li>
               ))}

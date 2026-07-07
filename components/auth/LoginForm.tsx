@@ -1,15 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Lock, LogIn, Skull } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { parseApiResponse } from "@/lib/utils";
 
-export function LoginForm() {
+export function LoginForm({ redirectTo = "/play" }: { redirectTo?: string }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirect") ?? "/";
 
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
@@ -30,7 +28,7 @@ export function LoginForm() {
       });
 
       await parseApiResponse(response);
-      router.push(redirect);
+      router.push(redirectTo);
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "ログインに失敗しました。");
@@ -40,7 +38,7 @@ export function LoginForm() {
   };
 
   return (
-    <div className="flex min-h-dvh items-center justify-center bg-black px-4 py-8">
+    <div className="flex min-h-dvh items-center justify-center bg-black px-4 py-8 font-mono">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-red-900 bg-red-950/40">
@@ -49,7 +47,7 @@ export function LoginForm() {
           <h1 className="text-2xl font-black italic text-red-600">
             埼玉ハンバーグ殺人事件
           </h1>
-          <p className="mt-2 text-sm text-zinc-500">ログインして復讐を開始</p>
+          <p className="mt-2 text-sm text-zinc-500">IDを知っている人だけ入場可</p>
         </div>
 
         <form
@@ -75,7 +73,7 @@ export function LoginForm() {
             value={loginId}
             onChange={(e) => setLoginId(e.target.value)}
             className="mb-4 w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 text-white focus:border-red-600 focus:outline-none"
-            placeholder="keikamotsushige@gmail.com または family1"
+            placeholder="test または keikamotsushige@gmail.com"
             autoComplete="username"
             required
           />
@@ -97,8 +95,10 @@ export function LoginForm() {
           </Button>
         </form>
 
-        <p className="mt-4 text-center text-xs text-zinc-500">
-          オーナーはメールアドレス、家族プレイは family1 / family2 でログイン
+        <p className="mt-4 text-center text-xs text-zinc-600">
+          <a href="/" className="hover:text-zinc-400">
+            ← トップへ戻る
+          </a>
         </p>
       </div>
     </div>

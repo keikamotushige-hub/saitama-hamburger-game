@@ -1,16 +1,12 @@
-import { Suspense } from "react";
 import { LoginForm } from "@/components/auth/LoginForm";
 
-export default function LoginPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-dvh items-center justify-center bg-black text-zinc-500">
-          読み込み中...
-        </div>
-      }
-    >
-      <LoginForm />
-    </Suspense>
-  );
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ redirect?: string }>;
+}) {
+  const params = await searchParams;
+  const redirectTo = params.redirect ?? "/play";
+
+  return <LoginForm redirectTo={redirectTo} />;
 }

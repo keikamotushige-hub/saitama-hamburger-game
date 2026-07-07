@@ -9,7 +9,6 @@ import {
   buildEnemies,
   buildParty,
   CHARACTERS,
-  KATSUMI,
   type Scene,
 } from "@/lib/saitama-hamburger/types";
 
@@ -43,74 +42,49 @@ export function SaitamaHamburgerGame() {
   };
 
   return (
-    <div className="game-root min-h-dvh overflow-hidden bg-black font-sans text-white">
+    <div className="game-root min-h-dvh overflow-hidden border-t-8 border-red-800 bg-black p-6 font-mono text-white">
       {scene === "title" && (
-        <div className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden">
-          <div className="game-title-bg absolute inset-0" />
-          <div className="absolute bottom-[12%] left-1/2 -translate-x-1/2 opacity-60">
-            <CrownCar variant="black" headlightsOn scale={1.1} />
-          </div>
-          <div className="relative z-10 px-6 text-center">
-            <p className="mb-4 text-xs uppercase tracking-[0.35em] text-red-500/80">
-              Saitama Incident File
+        <div className="flex h-[calc(100dvh-3rem)] flex-col items-center justify-center animate-pulse">
+          <h1 className="mb-10 text-center text-5xl font-black italic tracking-widest text-red-600 sm:text-7xl">
+            埼玉ハンバーグ殺人事件
+          </h1>
+          <button
+            type="button"
+            onClick={() => setScene("prologue")}
+            className="game-btn-primary px-10 py-4 font-bold transition-all"
+          >
+            復讐を開始する
+          </button>
+        </div>
+      )}
+
+      {scene === "prologue" && (
+        <div className="game-white-cima-prologue flex h-[calc(100dvh-3rem)] flex-col items-center justify-center bg-center bg-no-repeat">
+          <div className="border border-white bg-black/80 p-8">
+            <p className="mb-4 text-xl">とべ君：「ひろしげはどうした？」</p>
+            <p className="mb-4 text-xl">
+              しげる君：「ひろしげは白のシーマで殺されちゃったよ……さっき警察が来たんだ」
             </p>
-            <h1 className="game-title-text mb-3 text-4xl font-black italic sm:text-7xl">
-              埼玉ハンバーグ
-              <br />
-              殺人事件
-            </h1>
-            <p className="mb-12 text-sm tracking-widest text-zinc-400">
-              ひろしげ一家 — 復讐の記録
+            <p className="text-2xl font-bold text-red-500">
+              とべ君：「わかった。必ず報復してやる。」
             </p>
             <button
               type="button"
-              onClick={() => setScene("prologue")}
-              className="game-btn-primary px-10 py-4 text-lg font-bold"
+              onClick={() => setScene("select")}
+              className="game-btn-ghost mt-8 border px-6 py-2"
             >
-              復讐を開始する
+              クラウンに乗る
             </button>
           </div>
         </div>
       )}
 
-      {scene === "prologue" && (
-        <div className="flex min-h-dvh flex-col items-center justify-center bg-black px-6">
-          <div className="game-dialog-box max-w-2xl px-8 py-10 text-center">
-            <p className="game-dialog-line">とべ君：「ひろしげはどうした？」</p>
-            <p className="game-dialog-line mt-6">
-              しげる君：「ひろしげは殺されちゃったよ……さっき警察が来たんだ」
-            </p>
-            <p className="game-dialog-line mt-6">
-              とべ君：「わかった。まず
-              <span className="text-red-400">かつみ</span>
-              に連絡する。それから鈴木のボスに掛ける」
-            </p>
-            <p className="mt-6 text-sm text-zinc-500">
-              ひろしげ一家・当主 {KATSUMI.name}（{KATSUMI.title}）
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={() => setScene("select")}
-            className="game-btn-ghost mt-10 px-8 py-3"
-          >
-            クラウンに乗り込む
-          </button>
-        </div>
-      )}
-
       {scene === "select" && (
-        <div className="mx-auto min-h-dvh max-w-4xl px-4 py-10">
-          <div className="mb-8 text-center">
-            <p className="text-xs uppercase tracking-[0.25em] text-red-500">
-              Crew Selection
-            </p>
-            <h2 className="mt-2 text-3xl font-bold">乗車メンバーを選べ</h2>
-            <p className="mt-2 text-sm text-zinc-400">
-              3人を選んでください（{selectedChars.length}/3）— 車内から電話・銃撃
-            </p>
-          </div>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="mx-auto max-w-4xl">
+          <p className="mb-6 text-center text-sm text-gray-400">
+            白のクラウンに乗るメンバーを3人選べ（{selectedChars.length}/3）
+          </p>
+          <div className="grid grid-cols-1 gap-6 p-4 sm:grid-cols-2 sm:p-10">
             {CHARACTERS.map((char) => {
               const selected = selectedChars.includes(char.id);
               const disabled = !selected && selectedChars.length >= 3;
@@ -120,60 +94,32 @@ export function SaitamaHamburgerGame() {
                   key={char.id}
                   type="button"
                   disabled={disabled}
-                  className={`game-char-card p-6 text-left ${
-                    selected ? "game-char-card-selected" : ""
-                  } ${disabled ? "opacity-40" : ""}`}
                   onClick={() => toggleCharacter(char.id)}
+                  className={`border-2 p-8 text-left transition ${
+                    selected
+                      ? "border-red-500 bg-red-950/20"
+                      : disabled
+                        ? "cursor-not-allowed border-gray-800 opacity-40"
+                        : "border-gray-500 hover:border-red-700"
+                  }`}
                 >
-                  <div className="flex items-start justify-between">
-                    <h3 className="text-2xl font-bold">{char.name}</h3>
-                    <span className="text-[10px] uppercase tracking-wider text-zinc-500">
-                      {char.role}
-                    </span>
-                  </div>
-                  <p className="mt-2 text-sm text-red-300">{char.weapon}</p>
-                  <p className="mt-1 text-xs text-zinc-500">{char.style}</p>
+                  <h2 className="text-3xl font-bold">{char.name}</h2>
+                  <p className="mt-2">{char.weapon}</p>
+                  <p className="mt-1 text-sm text-gray-400">{char.style}</p>
                 </button>
               );
             })}
+            {selectedChars.length >= 3 && (
+              <button
+                type="button"
+                onClick={() => setScene("battle")}
+                className="col-span-1 bg-red-900 py-6 text-2xl font-black shadow-2xl transition hover:bg-red-800 sm:col-span-2"
+              >
+                鈴木組へ突撃
+              </button>
+            )}
           </div>
-          {selectedChars.length === 3 && (
-            <button
-              type="button"
-              onClick={() => setScene("approach")}
-              className="game-btn-primary mt-10 w-full py-4 text-lg font-bold"
-            >
-              駐車場へ向かう
-            </button>
-          )}
         </div>
-      )}
-
-      {scene === "approach" && (
-        <ParkingLotScene intensity="calm">
-          <div className="max-w-xl text-center">
-            <p className="text-xs uppercase tracking-[0.3em] text-zinc-400">
-              03:17 AM — 埼玉・某駐車場
-            </p>
-            <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl">
-              クラウン三台、到着。
-            </h2>
-            <p className="mt-6 leading-relaxed text-zinc-300">
-              ヘッドライトがアスファルトを切り裂く。
-              対面には鈴木組の車列。窓は開かない。誰も降りない。
-            </p>
-            <p className="mt-4 text-sm text-red-400">
-              手順：① 一家の当主・かつみに連絡 → ② 鈴木組長に連絡 → ③ 通話を切らずに銃撃
-            </p>
-            <button
-              type="button"
-              onClick={() => setScene("battle")}
-              className="game-btn-primary mt-10 px-10 py-4 text-lg font-bold"
-            >
-              かつみに電話を掛ける
-            </button>
-          </div>
-        </ParkingLotScene>
       )}
 
       {scene === "battle" && (
@@ -189,20 +135,20 @@ export function SaitamaHamburgerGame() {
           <div className="max-w-lg text-center">
             <h2
               className={`text-4xl font-black sm:text-5xl ${
-                battleResult === "victory" ? "text-red-500" : "text-zinc-500"
+                battleResult === "victory" ? "text-red-500" : "text-gray-500"
               }`}
             >
               {battleResult === "victory" ? "復讐成功" : "全滅……"}
             </h2>
-            <p className="mt-8 leading-relaxed text-zinc-300">
+            <p className="mt-8 italic leading-relaxed text-gray-300">
               {battleResult === "victory"
-                ? "通話はまだ繋がっている。かつみの声が静かに響く——「……終わったのか」。クラウンのヘッドライトが夜明け前の空を照らした。"
-                : "電話が切れた。駐車場に銃声だけが残る。だが、とべ君の復讐心に火は消えない。"}
+                ? "白のクラウンがエンジン音を轟かせ、埼玉の夜明けへと消えていく——"
+                : "電話が切れた。白のシーマの記憶だけが、夜に残った。"}
             </p>
             <button
               type="button"
               onClick={resetGame}
-              className="game-btn-ghost mt-10 px-8 py-3"
+              className="game-btn-ghost mt-10 border px-8 py-3"
             >
               タイトルへ戻る
             </button>
