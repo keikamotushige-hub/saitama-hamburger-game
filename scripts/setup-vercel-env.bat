@@ -17,8 +17,8 @@ call npx vercel env rm TEST_PASSWORD production --yes 2>nul
 call npx vercel env rm TEST_NAME production --yes 2>nul
 
 echo saitama-hamburger-game-secret-2026| npx vercel env add AUTH_SECRET production
-echo keikamotushiige@gmail.com| npx vercel env add OWNER_EMAIL production
-echo keikamotushige@gmail.com| npx vercel env add OWNER_EMAIL_ALIASES production
+echo keikamotushige@gmail.com| npx vercel env add OWNER_EMAIL production
+echo keikamotushiige@gmail.com| npx vercel env add OWNER_EMAIL_ALIASES production
 echo owner2026!| npx vercel env add OWNER_PASSWORD production
 echo family1| npx vercel env add PLAYER1_ID production
 echo 1111| npx vercel env add PLAYER1_PASSWORD production

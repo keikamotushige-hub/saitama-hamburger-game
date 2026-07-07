@@ -69,7 +69,7 @@ export function LoginForm({ redirectTo = "/play" }: { redirectTo?: string }) {
             value={loginId}
             onChange={(e) => setLoginId(e.target.value)}
             className="mb-4 w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 text-white focus:border-red-600 focus:outline-none"
-            placeholder="test または keikamotushiige@gmail.com"
+            placeholder="test または keikamotushige@gmail.com"
             autoComplete="username"
             required
           />

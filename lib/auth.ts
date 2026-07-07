@@ -29,9 +29,9 @@ interface PlayerCredential {
 function getOwnerEmails(): string[] {
   const fromEnv = envOrFallback(
     process.env.OWNER_EMAIL,
-    "keikamotushiige@gmail.com",
+    "keikamotushige@gmail.com",
   );
-  const extras = envOrFallback(process.env.OWNER_EMAIL_ALIASES, "keikamotushige@gmail.com");
+  const extras = envOrFallback(process.env.OWNER_EMAIL_ALIASES, "keikamotushiige@gmail.com");
   return [...new Set([fromEnv, ...extras.split(",")].map((e) => e.trim().toLowerCase()))].filter(Boolean);
 }
 
