@@ -32,6 +32,12 @@ const BUILTIN_ACCOUNTS: Array<{
     role: "player",
   },
   {
+    loginIds: ["tobe", "とべ"],
+    password: "3333",
+    name: "とべ君",
+    role: "player",
+  },
+  {
     loginIds: ["test"],
     password: "1111",
     name: "テストプレイ",

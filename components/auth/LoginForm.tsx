@@ -72,7 +72,7 @@ export function LoginForm({ redirectTo = "/play" }: { redirectTo?: string }) {
             value={loginId}
             onChange={(e) => setLoginId(e.target.value)}
             className="mb-4 w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 text-white focus:border-red-600 focus:outline-none"
-            placeholder="keikamotushige@gmail.com"
+            placeholder="tobe または keikamotushige@gmail.com"
             autoComplete="username"
             required
           />
@@ -88,7 +88,9 @@ export function LoginForm({ redirectTo = "/play" }: { redirectTo?: string }) {
             required
           />
           <p className="mb-6 text-xs text-zinc-500">
-            オーナーパスワード：<span className="text-red-400">111111</span>（6つの1）
+            とべ君：<span className="text-red-400">tobe</span> /{" "}
+            <span className="text-red-400">3333</span>
+            {"　"}オーナー：<span className="text-red-400">111111</span>
           </p>
 
           <Button type="submit" isLoading={isLoading} className="w-full">

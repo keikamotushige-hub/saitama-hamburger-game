@@ -27,5 +27,6 @@ values
   ('keikamotushige@gmail.com', 'owner2026!', 'オーナー', 'owner'),
   ('family1', '1111', '家族プレイ1', 'player'),
   ('family2', '2222', '家族プレイ2', 'player'),
-  ('test', 'test2026', 'テストプレイ', 'player')
+  ('tobe', '3333', 'とべ君', 'player'),
+  ('test', '1111', 'テストプレイ', 'player')
 on conflict (login_id) do nothing;
