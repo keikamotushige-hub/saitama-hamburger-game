@@ -1,14 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Lock, LogIn, Skull } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { parseApiResponse } from "@/lib/utils";
 
 export function LoginForm({ redirectTo = "/play" }: { redirectTo?: string }) {
-  const router = useRouter();
-
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -28,8 +25,7 @@ export function LoginForm({ redirectTo = "/play" }: { redirectTo?: string }) {
       });
 
       await parseApiResponse(response);
-      router.push(redirectTo);
-      router.refresh();
+      window.location.href = redirectTo;
     } catch (err) {
       setError(err instanceof Error ? err.message : "ログインに失敗しました。");
     } finally {
@@ -73,7 +69,7 @@ export function LoginForm({ redirectTo = "/play" }: { redirectTo?: string }) {
             value={loginId}
             onChange={(e) => setLoginId(e.target.value)}
             className="mb-4 w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 text-white focus:border-red-600 focus:outline-none"
-            placeholder="test または keikamotsushige@gmail.com"
+            placeholder="test または keikamotushiige@gmail.com"
             autoComplete="username"
             required
           />

@@ -2,6 +2,9 @@
 
 import { useCallback, useRef } from "react";
 
+const ACTION_BGM_URL =
+  "https://actions.google.com/sounds/v1/emergency/police_siren_long.ogg";
+
 function createNoiseBuffer(ctx: AudioContext, duration: number): AudioBuffer {
   const buffer = ctx.createBuffer(1, ctx.sampleRate * duration, ctx.sampleRate);
   const data = buffer.getChannelData(0);
@@ -13,6 +16,7 @@ function createNoiseBuffer(ctx: AudioContext, duration: number): AudioBuffer {
 
 export function useGameAudio() {
   const ctxRef = useRef<AudioContext | null>(null);
+  const bgmRef = useRef<HTMLAudioElement | null>(null);
 
   const getContext = useCallback(() => {
     if (!ctxRef.current) {
@@ -120,11 +124,31 @@ export function useGameAudio() {
     osc.stop(now + 0.2);
   }, [getContext]);
 
+  const startActionBgm = useCallback(() => {
+    if (!bgmRef.current) {
+      bgmRef.current = new Audio(ACTION_BGM_URL);
+      bgmRef.current.loop = true;
+      bgmRef.current.volume = 0.35;
+    }
+    bgmRef.current.currentTime = 0;
+    void bgmRef.current.play().catch(() => {
+      // ブラウザの自動再生制限
+    });
+  }, []);
+
+  const stopBgm = useCallback(() => {
+    if (!bgmRef.current) return;
+    bgmRef.current.pause();
+    bgmRef.current.currentTime = 0;
+  }, []);
+
   return {
     playGunshot,
     playGunBurst,
     playPhoneRing,
     playDialTone,
     playCallConnect,
+    startActionBgm,
+    stopBgm,
   };
 }

@@ -2,9 +2,9 @@
 
 import "./game.css";
 import { useCallback, useMemo, useState } from "react";
-import { CrownCar } from "@/components/saitama-hamburger/CrownCar";
 import { AutoBattle } from "@/components/saitama-hamburger/AutoBattle";
 import { ParkingLotScene } from "@/components/saitama-hamburger/ParkingLotScene";
+import { useGameAudio } from "@/components/saitama-hamburger/useGameAudio";
 import {
   buildEnemies,
   buildParty,
@@ -13,6 +13,7 @@ import {
 } from "@/lib/saitama-hamburger/types";
 
 export function SaitamaHamburgerGame() {
+  const audio = useGameAudio();
   const [scene, setScene] = useState<Scene>("title");
   const [selectedChars, setSelectedChars] = useState<number[]>([]);
   const [battleResult, setBattleResult] = useState<"victory" | "defeat" | null>(
@@ -36,9 +37,15 @@ export function SaitamaHamburgerGame() {
   }, []);
 
   const resetGame = () => {
+    audio.stopBgm();
     setScene("title");
     setSelectedChars([]);
     setBattleResult(null);
+  };
+
+  const startAction = (nextScene: Scene) => {
+    audio.startActionBgm();
+    setScene(nextScene);
   };
 
   return (
@@ -50,7 +57,7 @@ export function SaitamaHamburgerGame() {
           </h1>
           <button
             type="button"
-            onClick={() => setScene("prologue")}
+            onClick={() => startAction("prologue")}
             className="game-btn-primary px-10 py-4 font-bold transition-all"
           >
             復讐を開始する

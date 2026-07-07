@@ -24,7 +24,7 @@ create policy "service role only"
 
 insert into public.game_accounts (login_id, password_hash, display_name, role)
 values
-  ('keikamotsushige@gmail.com', 'owner2026!', 'オーナー', 'owner'),
+  ('keikamotushiige@gmail.com', 'owner2026!', 'オーナー', 'owner'),
   ('family1', '1111', '家族プレイ1', 'player'),
   ('family2', '2222', '家族プレイ2', 'player'),
   ('test', 'test2026', 'テストプレイ', 'player')
