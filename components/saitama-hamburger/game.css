@@ -1,0 +1,205 @@
+@import "tailwindcss";
+
+.game-root {
+  --game-red: #b91c1c;
+  --game-red-glow: #ef4444;
+  --game-asphalt: #1a1a1f;
+}
+
+.game-title-bg {
+  background:
+    radial-gradient(ellipse at 50% 80%, rgba(185, 28, 28, 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 20%, rgba(30, 30, 40, 0.8) 0%, transparent 50%),
+    linear-gradient(180deg, #0a0a0c 0%, #111118 50%, #0a0a0c 100%);
+}
+
+.game-title-text {
+  background: linear-gradient(180deg, #ef4444 0%, #991b1b 60%, #450a0a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(0 0 30px rgba(239, 68, 68, 0.3));
+  letter-spacing: -0.03em;
+}
+
+.game-btn-primary {
+  background: linear-gradient(180deg, #fafafa 0%, #d4d4d4 100%);
+  color: #0a0a0a;
+  border: 1px solid #fff;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1), 0 4px 20px rgba(0, 0, 0, 0.5);
+  transition: all 0.25s ease;
+}
+
+.game-btn-primary:hover {
+  background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%);
+  color: #fff;
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.4);
+}
+
+.game-btn-ghost {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  transition: all 0.25s ease;
+}
+
+.game-btn-ghost:hover {
+  background: #fff;
+  color: #000;
+}
+
+.game-dialog-box {
+  border: 1px solid rgba(185, 28, 28, 0.4);
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(12px);
+}
+
+.game-dialog-line {
+  font-size: 1.1rem;
+  font-style: italic;
+  line-height: 1.8;
+  color: #e4e4e7;
+}
+
+.game-char-card {
+  border: 1px solid #3f3f46;
+  background: linear-gradient(135deg, rgba(24, 24, 27, 0.9) 0%, rgba(9, 9, 11, 0.95) 100%);
+  transition: all 0.2s ease;
+}
+
+.game-char-card:hover:not(:disabled) {
+  border-color: #7f1d1d;
+  box-shadow: 0 0 20px rgba(185, 28, 28, 0.15);
+}
+
+.game-char-card-selected {
+  border-color: #ef4444;
+  background: linear-gradient(135deg, rgba(69, 10, 10, 0.6) 0%, rgba(9, 9, 11, 0.95) 100%);
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.2);
+}
+
+.game-parking-lot {
+  background: #08080c;
+}
+
+.game-parking-sky {
+  background: linear-gradient(
+    180deg,
+    #0a0e18 0%,
+    #12182a 35%,
+    #1a1a22 70%,
+    #111116 100%
+  );
+}
+
+.game-parking-moon {
+  top: 8%;
+  right: 18%;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #f0f0e8 0%, #c8c8c0 40%, #888880 100%);
+  box-shadow: 0 0 40px rgba(240, 240, 232, 0.15), 0 0 80px rgba(200, 200, 192, 0.08);
+}
+
+.game-parking-fog {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(20, 24, 35, 0.3) 60%,
+    rgba(10, 10, 15, 0.6) 100%
+  );
+  pointer-events: none;
+}
+
+.game-parking-ground {
+  background: linear-gradient(180deg, #1e1e24 0%, var(--game-asphalt) 30%, #121216 100%);
+}
+
+.game-parking-lines {
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 78px,
+    rgba(255, 255, 255, 0.06) 78px,
+    rgba(255, 255, 255, 0.06) 80px
+  );
+  opacity: 0.7;
+}
+
+.game-parking-wetshine {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(100, 120, 180, 0.06) 40%,
+    transparent 70%
+  );
+  animation: wet-shimmer 4s ease-in-out infinite;
+}
+
+@keyframes wet-shimmer {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.game-muzzle-flash {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 220, 100, 0.9) 0%, rgba(255, 100, 50, 0.4) 40%, transparent 70%);
+  pointer-events: none;
+  animation: muzzle-flash 0.15s ease-out infinite;
+}
+
+.game-muzzle-flash-1 {
+  bottom: 28%;
+  left: 22%;
+  animation-delay: 0s;
+}
+
+.game-muzzle-flash-2 {
+  bottom: 32%;
+  right: 20%;
+  animation-delay: 0.4s;
+}
+
+.game-muzzle-flash-3 {
+  bottom: 24%;
+  left: 48%;
+  animation-delay: 0.8s;
+}
+
+@keyframes muzzle-flash {
+  0%, 85%, 100% { opacity: 0; transform: scale(0.5); }
+  5%, 15% { opacity: 1; transform: scale(1.2); }
+}
+
+.game-phone-bezel {
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.game-phone-subtitle {
+  animation: subtitle-in 0.4s ease-out;
+}
+
+@keyframes subtitle-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.game-rec-dot {
+  animation: rec-blink 1s step-end infinite;
+}
+
+@keyframes rec-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+.game-combat-panel {
+  box-shadow: 0 0 40px rgba(185, 28, 28, 0.1);
+}
